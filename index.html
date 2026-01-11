@@ -31,6 +31,45 @@
 
             <button class="startBtn">Start Game</button>
         </div>
+
+        <div class="gameScreen" id="gameScreen">
+            <div class="stats">
+                <div class="statBox">
+                    <div class="statLabel">Score</div>
+                    <div class="statValue" id="score">0</div>
+                </div>
+                <div class="statBox">
+                    <div class="statLabel">Streak</div>
+                    <div class="statValue" id="streak">0</div>
+                </div>
+                <div class="statBox">
+                    <div class="statLabel">Question</div>
+                    <div class="statValue"><span id="current">1</span>/<span id="total">10</span></div>
+                </div>
+            </div>
+
+            <div class="timerContainer">
+                <div class="timerBar" id="timerBar"></div>
+                <div class="timerText" id="timerText">10s</div>
+            </div>
+
+            <div class="equationDisplay">
+                <div class="equation" id="equation">5 + 3</div>
+            </div>
+
+            <input type="number" class="answerInput" id="answerInput" placeholder="Put answer here" autocomplete="off">
+            
+            <button class="sumbitBtn" onclick="SubmitAnswer()">Sumbit Answer</button>
+        
+            <div class="feedback" id="feedback"></div>
+        </div>
+
+        <div class="gameOverScreen" id="gameOverScreen">
+            <h2>Game Over!</h2>
+            <div class="finalScore" id="finalScore">0</div>
+            <p style="font-size: 1.2em; color: #666;">Correct Answers: <span id="correctCount">0</span>/10</p>
+            <button class="restartBtn" onclick="restartGame()">Play Again</button>
+        </div>
     </div>
 
     <script src="index.js"></script>
