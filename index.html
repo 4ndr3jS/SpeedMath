@@ -4,8 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpeedMath</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <div class="container">
+        <h1>Speed Math</h1>
+        
+        <div class="startScreen active" id="startScreen">
+            <p class="subtitle">Solve equations as fast as you can</p>
+            
+            <div class="info">
+                <h3>How to Play:</h3>
+                <ul>
+                    <li>You'll see a math equation</li>
+                    <li>Type your answer and press Enter or Submit</li>
+                    <li>Answer before the time runs out</li>
+                    <li>Get bonus points for speed</li>
+                </ul>
+            </div>
+
+            <div class="difficultySelect">
+                <button class="difficultyBtn selected">Easy<br><small>10s</small></button>
+                <button class="difficultyBtn">Medium<br><small>7s</small></button>
+                <button class="difficultyBtn">Hard<br><small>5s</small></button>
+            </div>
+
+            <button class="startBtn">Start Game</button>
+        </div>
+    </div>
 </body>
 </html>
