@@ -24,13 +24,15 @@
             </div>
 
             <div class="difficultySelect">
-                <button class="difficultyBtn selected">Easy<br><small>10s</small></button>
-                <button class="difficultyBtn">Medium<br><small>7s</small></button>
-                <button class="difficultyBtn">Hard<br><small>5s</small></button>
+                <button class="difficultyBtn selected" onclick="selectDifficulty('easy')">Easy<br><small>10s</small></button>
+                <button class="difficultyBtn" onclick="selectDifficulty('medium')">Medium<br><small>7s</small></button>
+                <button class="difficultyBtn" onclick="selectDifficulty('hard')">Hard<br><small>5s</small></button>
             </div>
 
             <button class="startBtn">Start Game</button>
         </div>
     </div>
+
+    <script src="index.js"></script>
 </body>
 </html>
