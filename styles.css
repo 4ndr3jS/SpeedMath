@@ -110,3 +110,206 @@ h1{
     list-style-position: inside;
     color: #666;
 }
+
+.stats{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    gap: 15px;
+}
+
+.statBox{
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    flex: 1;
+}
+
+.statValue{
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.timerContainer{
+    position: relative;
+    height: 20px;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.timerBar{
+    height: 100%;
+    background: linear-gradient(90deg, #51cf66 0%, #37b24d 100%);
+    transition: width 0.1s linear;
+    border-radius: 10px;
+}
+
+.timerBar.warning{
+    background: linear-gradient(90deg, #ffd43b 0%, #fab005 100%);
+}
+
+.timer-bar.danger {
+    background: linear-gradient(90deg, #ff6b6b 0%, #fa5252 100%);
+}
+
+.timerText{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.equationDisplay{
+    background: #f8f9fa;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 25px;
+    border: 3px solid #667eea;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.equation{
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.answerInput{
+    width: 100%;
+    padding: 20px;
+    font-size: 2em;
+    text-align: center;
+    border: 3px solid #e0e0e0;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+}
+
+.answerInput:focus{
+    outline: none;
+    /* 67676767 */
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.submitBtn{
+    width: 100%;
+    padding: 18px;
+    font-size: 1.3em;
+    background: linear-gradient(1 5deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.submitBtn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.submitBtn:active{
+    transform: translateY(0);
+}
+
+.feedback {
+    text-align: center;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.1em;
+    display: none;
+}
+
+.feedback.correct {
+    background: #d3f9d8;
+    color: #2b8a3e;
+    display: block;
+    animation: slideIn 0.3s ease;
+}
+
+.feedback.wrong {
+    background: #ffe0e0;
+    color: #c92a2a;
+    display: block;
+    animation: shake 0.5s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-10px);
+    }
+    75% {
+        transform: translateX(10px);
+    }
+}
+
+.gameOverScreen{
+    text-align: center;
+    display: none;
+}
+
+.gameOverScreen.active{
+    display: block;
+}
+
+.startBtn, .restartBtn {
+    padding: 20px 50px;
+    font-size: 1.5em;
+    background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 30px;
+    transition: all 0.3s;
+}
+
+.startBtn:hover, .restartBtn:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(81, 207, 102, 0.4);
+}
+
+.gameScreen{
+    display: none;
+}
+
+.gameScreen.active{
+    display: block;
+}
+
+.finalScore{
+    font-size: 4em;
+    color: #667eea;
+    font-weight: bold;
+    margin: 20px 0;
+}
