@@ -1,3 +1,4 @@
+
 let score = 0;
 let streak = 0;
 let currentQuestion = 0;
@@ -163,12 +164,16 @@ function renderLeaderboardHeader() {
     const table = document.querySelector('.container .table');
     const header = document.createElement('div');
     header.className = 'leaderboard-header';
+    const placeLabel = document.createElement('div');
+    placeLabel.className = 'leaderboard-cell place';
+    placeLabel.textContent = '#';
     const nameLabel = document.createElement('div');
     nameLabel.className = 'leaderboard-cell';
     nameLabel.textContent = 'Name';
     const scoreLabel = document.createElement('div');
     scoreLabel.className = 'leaderboard-cell score';
     scoreLabel.textContent = 'Score';
+    header.appendChild(placeLabel);
     header.appendChild(nameLabel);
     header.appendChild(scoreLabel);
     table.appendChild(header);
@@ -179,12 +184,16 @@ function renderLeaderboardRows(data) {
     data.forEach((entry, i) => {
         const row = document.createElement('div');
         row.className = 'leaderboard-row' + (i % 2 === 1 ? ' alt' : '');
+        const placeCell = document.createElement('div');
+        placeCell.className = 'leaderboard-cell place';
+        placeCell.textContent = i + 1;
         const nameCell = document.createElement('div');
         nameCell.className = 'leaderboard-cell name';
         nameCell.textContent = entry.name;
         const scoreCell = document.createElement('div');
         scoreCell.className = 'leaderboard-cell score';
         scoreCell.textContent = entry.score;
+        row.appendChild(placeCell);
         row.appendChild(nameCell);
         row.appendChild(scoreCell);
         table.appendChild(row);
@@ -215,12 +224,38 @@ function showNameInput() {
     }
 }
 
-function submitToLeaderboard() {
+async function fetchLeaderboard() {
+    const { data, error } = await supabase
+        .from('leaderboard')
+        .select('name, score')
+        .order('score', { ascending: false })
+        .limit(10);
+    if (error) {
+        console.error('Error fetching leaderboard:', error);
+        return;
+    }
+    const table = document.querySelector('.container .table');
+    table.innerHTML = '';
+    renderLeaderboardHeader();
+    renderLeaderboardRows(data);
+}
+
+async function submitToLeaderboard() {
     const input = document.getElementById('leaderboardNameInput');
     let name = input.value.trim();
     if (!name) return;
     input.style.display = 'none';
     document.getElementById('leaderboardSubmitBtn').style.display = 'none';
+    const { error } = await supabase
+        .from('leaderboard')
+        .insert([{ name, score }]);
+    if (error) {
+        alert('Error submitting score.');
+        return;
+    }
+    setTimeout(() => {
+        fetchLeaderboard();
+    }, 200);
 }
 
 document.querySelector('.startBtn').addEventListener('click', startGame);
@@ -229,3 +264,4 @@ document.getElementById('answerInput').addEventListener('keypress', function(e) 
 });
 window.SubmitAnswer = submitAnswer;
 window.restartGame = restartGame;
+window.selectDifficulty = selectDifficulty;
