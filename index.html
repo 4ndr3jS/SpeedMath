@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpeedMath</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="offset" style="width: 350px;"></div>
+
     <div class="container">
         <h1>Speed Math</h1>
         
@@ -20,6 +25,7 @@
                     <li>Type your answer and press Enter or Submit</li>
                     <li>Answer before the time runs out</li>
                     <li>Get bonus points for speed</li>
+                    <li>Answer all of the equations to be on the leaderboard</li>
                 </ul>
             </div>
 
@@ -69,6 +75,13 @@
             <div class="finalScore" id="finalScore">0</div>
             <p style="font-size: 1.2em; color: #666;">Correct Answers: <span id="correctCount">0</span>/10</p>
             <button class="restartBtn" onclick="restartGame()">Play Again</button>
+        </div>
+    </div>
+
+    <div class="container" style="max-width: 350px; margin-left: 50px; min-height: 600px;">
+        <h2>Leaderboard</h2>
+        <div class="table">
+
         </div>
     </div>
 
