@@ -26,21 +26,30 @@ body {
 .container .table {
     width: 100%;
     margin-top: 20px;
-    border-radius: 0;
+    border-radius: 3px;
     box-shadow: none;
     font-size: 1.1em;
-    overflow: visible;
+    overflow-y: auto;
+    min-height: 120px;
+    display: block;
 }
 
-.leaderboard-header {
+.leaderboard-header, .leaderboard-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 10px 16px;
+    padding: 10px 8px;
+    min-width: 0;
+}
+
+.leaderboard-header {
     background: #e9ecef;
     font-weight: bold;
     color: #333;
     border-bottom: 2px solid #d0d0d0;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 .leaderboard-row {
@@ -60,6 +69,15 @@ body {
     text-align: left;
     font-family: "Roboto", sans-serif;
     font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.leaderboard-cell.place {
+    max-width: 40px;
+    flex: 0 0 40px;
+    text-align: center;
 }
 
 .leaderboard-cell.score {
@@ -67,6 +85,8 @@ body {
     font-family: monospace;
     font-family: "Roboto", sans-serif;
     font-size: 16px;
+    max-width: 80px;
+    flex: 0 0 80px;
 }
 
 #leaderboardNameInput {
