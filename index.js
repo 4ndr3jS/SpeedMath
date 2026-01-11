@@ -8,6 +8,7 @@ let timeLeft = timeLimit;
 let timerInterval;
 let difficulty = 'easy';
 let correctAnswers = 0;
+let leaderboard = [];
 
 function selectDifficulty(level) {
     difficulty = level;
@@ -150,11 +151,76 @@ function endGame() {
     document.getElementById('gameOverScreen').classList.add('active');
     document.getElementById('finalScore').textContent = score;
     document.getElementById('correctCount').textContent = correctAnswers;
+    showNameInput();
 }
 
 function restartGame() {
     document.getElementById('gameOverScreen').classList.remove('active');
     document.getElementById('startScreen').classList.add('active');
+}
+
+function renderLeaderboardHeader() {
+    const table = document.querySelector('.container .table');
+    const header = document.createElement('div');
+    header.className = 'leaderboard-header';
+    const nameLabel = document.createElement('div');
+    nameLabel.className = 'leaderboard-cell';
+    nameLabel.textContent = 'Name';
+    const scoreLabel = document.createElement('div');
+    scoreLabel.className = 'leaderboard-cell score';
+    scoreLabel.textContent = 'Score';
+    header.appendChild(nameLabel);
+    header.appendChild(scoreLabel);
+    table.appendChild(header);
+}
+
+function renderLeaderboardRows(data) {
+    const table = document.querySelector('.container .table');
+    data.forEach((entry, i) => {
+        const row = document.createElement('div');
+        row.className = 'leaderboard-row' + (i % 2 === 1 ? ' alt' : '');
+        const nameCell = document.createElement('div');
+        nameCell.className = 'leaderboard-cell name';
+        nameCell.textContent = entry.name;
+        const scoreCell = document.createElement('div');
+        scoreCell.className = 'leaderboard-cell score';
+        scoreCell.textContent = entry.score;
+        row.appendChild(nameCell);
+        row.appendChild(scoreCell);
+        table.appendChild(row);
+    });
+}
+
+function showNameInput() {
+    let input = document.getElementById('leaderboardNameInput');
+    let btn = document.getElementById('leaderboardSubmitBtn');
+    if (!input) {
+        input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'Enter your name';
+        input.id = 'leaderboardNameInput';
+        input.className = 'answerInput';
+        btn = document.createElement('button');
+        btn.textContent = 'Submit to Leaderboard';
+        btn.id = 'leaderboardSubmitBtn';
+        btn.className = 'submitBtn';
+        btn.style.marginTop = '10px';
+        btn.onclick = submitToLeaderboard;
+        const over = document.getElementById('gameOverScreen');
+        over.appendChild(input);
+        over.appendChild(btn);
+    } else {
+        input.style.display = '';
+        btn.style.display = '';
+    }
+}
+
+function submitToLeaderboard() {
+    const input = document.getElementById('leaderboardNameInput');
+    let name = input.value.trim();
+    if (!name) return;
+    input.style.display = 'none';
+    document.getElementById('leaderboardSubmitBtn').style.display = 'none';
 }
 
 document.querySelector('.startBtn').addEventListener('click', startGame);
