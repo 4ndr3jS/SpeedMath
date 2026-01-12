@@ -1,3 +1,4 @@
+import { supabase } from './supabaseClient.js';
 
 let score = 0;
 let streak = 0;
@@ -225,19 +226,23 @@ function showNameInput() {
 }
 
 async function fetchLeaderboard() {
-    const { data, error } = await supabase
-        .from('leaderboard')
-        .select('name, score')
-        .order('score', { ascending: false })
-        .limit(10);
-    if (error) {
-        console.error('Error fetching leaderboard:', error);
-        return;
+    try {
+        const { data, error } = await supabase
+            .from('leaderboard')
+            .select('name, score')
+            .order('score', { ascending: false })
+            .limit(10);
+        if (error) {
+            console.error('Error fetching leaderboard:', error);
+            return;
+        }
+        const table = document.querySelector('.container .table');
+        table.innerHTML = '';
+        renderLeaderboardHeader();
+        renderLeaderboardRows(data);
+    } catch (err) {
+        console.error('Error:', err);
     }
-    const table = document.querySelector('.container .table');
-    table.innerHTML = '';
-    renderLeaderboardHeader();
-    renderLeaderboardRows(data);
 }
 
 async function submitToLeaderboard() {
@@ -246,22 +251,39 @@ async function submitToLeaderboard() {
     if (!name) return;
     input.style.display = 'none';
     document.getElementById('leaderboardSubmitBtn').style.display = 'none';
-    const { error } = await supabase
-        .from('leaderboard')
-        .insert([{ name, score }]);
-    if (error) {
+    try {
+        const { error } = await supabase
+            .from('leaderboard')
+            .insert([{ name, score }]);
+        if (error) {
+            console.error('Error submitting score:', error);
+            alert('Error submitting score.');
+            return;
+        }
+        setTimeout(() => {
+            fetchLeaderboard();
+        }, 200);
+    } catch (err) {
+        console.error('Error:', err);
         alert('Error submitting score.');
-        return;
     }
-    setTimeout(() => {
-        fetchLeaderboard();
-    }, 200);
 }
 
-document.querySelector('.startBtn').addEventListener('click', startGame);
-document.getElementById('answerInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') submitAnswer();
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.startBtn').addEventListener('click', startGame);
+    
+    document.querySelectorAll('.difficultyBtn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            selectDifficulty(btn.dataset.difficulty);
+        });
+    });
+    document.getElementById('submitBtn').addEventListener('click', submitAnswer);
+    
+    document.getElementById('answerInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') submitAnswer();
+    });
+    
+    document.getElementById('restartBtn').addEventListener('click', restartGame);
+    
+    fetchLeaderboard();
 });
-window.SubmitAnswer = submitAnswer;
-window.restartGame = restartGame;
-window.selectDifficulty = selectDifficulty;
