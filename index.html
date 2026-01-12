@@ -30,9 +30,9 @@
             </div>
 
             <div class="difficultySelect">
-                <button class="difficultyBtn selected" onclick="selectDifficulty('easy')">Easy<br><small>10s</small></button>
-                <button class="difficultyBtn" onclick="selectDifficulty('medium')">Medium<br><small>7s</small></button>
-                <button class="difficultyBtn" onclick="selectDifficulty('hard')">Hard<br><small>5s</small></button>
+                <button class="difficultyBtn selected" data-difficulty="easy">Easy<br><small>10s</small></button>
+                <button class="difficultyBtn" data-difficulty="medium">Medium<br><small>7s</small></button>
+                <button class="difficultyBtn" data-difficulty="hard">Hard<br><small>5s</small></button>
             </div>
 
             <button class="startBtn">Start Game</button>
@@ -65,7 +65,7 @@
 
             <input type="number" class="answerInput" id="answerInput" placeholder="Put answer here" autocomplete="off">
             
-            <button class="submitBtn" onclick="SubmitAnswer()">Sumbit Answer</button>
+            <button class="submitBtn" id="submitBtn">Submit Answer</button>
         
             <div class="feedback" id="feedback"></div>
         </div>
@@ -74,7 +74,7 @@
             <h2>Game Over!</h2>
             <div class="finalScore" id="finalScore">0</div>
             <p style="font-size: 1.2em; color: #666;">Correct Answers: <span id="correctCount">0</span>/10</p>
-            <button class="restartBtn" onclick="restartGame()">Play Again</button>
+            <button class="restartBtn" id="restartBtn">Play Again</button>
         </div>
     </div>
 
@@ -85,7 +85,6 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
-    <script src="index.js"></script>
+    <script type="module" src="/index.js"></script>
 </body>
 </html>
