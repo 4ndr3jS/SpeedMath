@@ -17,9 +17,8 @@
     </script>
 </head>
 <body>
-    <div class="offset" style="width: 350px;"></div>
-
-    <div class="container">
+    <div class="site-wrapper">
+        <div class="container">
         <h1>Speed Math</h1>
         
         <div class="startScreen active" id="startScreen">
@@ -83,17 +82,18 @@
             <p style="font-size: 1.2em; color: #666;">Correct Answers: <span id="correctCount">0</span>/10</p>
             <button class="restartBtn" id="restartBtn">Play Again</button>
         </div>
-    </div>
-
-    <div class="container leaderboard-container easy" style="max-width: 400px; margin-left: 50px; min-height: 600px; padding-left: 25px; padding-right: 25px;">
-        <h2>Leaderboard</h2>
-        <div class="leaderboard-tabs">
-            <button class="leaderboard-tab active" data-tab="easy">Easy</button>
-            <button class="leaderboard-tab" data-tab="medium">Medium</button>
-            <button class="leaderboard-tab" data-tab="hard">Hard</button>
         </div>
-        <div class="table">
 
+        <div class="container leaderboard-container easy">
+            <h2>Leaderboard</h2>
+            <div class="leaderboard-tabs">
+                <button class="leaderboard-tab active" data-tab="easy">Easy</button>
+                <button class="leaderboard-tab" data-tab="medium">Medium</button>
+                <button class="leaderboard-tab" data-tab="hard">Hard</button>
+            </div>
+            <div class="table">
+
+            </div>
         </div>
     </div>
 
