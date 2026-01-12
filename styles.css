@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1d2442 0%, #1b3a36 100%);
+    background: linear-gradient(135deg, #0c1829 0%, #1f2d47 50%, #242e3e 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -16,11 +16,23 @@ body {
 
 .container{
     background: white;
-    border-radius: 20px;
+    border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     padding: 40px;
     max-width: 600px;
     width: 100%;
+}
+
+.container.leaderboard-container {
+    background: white !important;
+    position: relative;
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 600px;
+    padding-left: 25px;
+    padding-right: 25px;
+    z-index: 0;
+    border-radius: 16px;
 }
 
 .container .table {
@@ -34,6 +46,69 @@ body {
     display: block;
 }
 
+.leaderboard-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+    margin-top: 20px;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+}
+
+.leaderboard-tab {
+    background: #e9ecef;
+    color: #333;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    transition: transform 0.2s;
+}
+
+.leaderboard-tab:hover {
+    background: #f5f5f5;
+    transform: translateY(-2px);
+    border-color: #d0d0d0;
+}
+
+.leaderboard-tab.active {
+    background: #42c4d8;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+}
+
+.leaderboard-container.easy .leaderboard-tab.active {
+    background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+}
+
+.leaderboard-container.easy .leaderboard-header {
+    background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+    color: white;
+}
+
+.leaderboard-container.medium .leaderboard-tab.active {
+    background: linear-gradient(135deg, #ff922b 0%, #fd7e14 100%);
+}
+
+.leaderboard-container.medium .leaderboard-header {
+    background: linear-gradient(135deg, #ff922b 0%, #fd7e14 100%);
+    color: white;
+}
+
+.leaderboard-container.hard .leaderboard-tab.active {
+    background: linear-gradient(135deg, #ff6b6b 0%, #fa5252 100%);
+}
+
+.leaderboard-container.hard .leaderboard-header {
+    background: linear-gradient(135deg, #ff6b6b 0%, #fa5252 100%);
+    color: white;
+}
+
 .leaderboard-header, .leaderboard-row {
     display: flex;
     flex-direction: row;
@@ -43,25 +118,34 @@ body {
 }
 
 .leaderboard-header {
-    background: #e9ecef;
     font-weight: bold;
     color: #333;
-    border-bottom: 2px solid #d0d0d0;
+    border-radius: 2px;
     position: sticky;
     top: 0;
     z-index: 1;
+    padding: 15px 16px;
 }
 
 .leaderboard-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 10px 16px;
+    padding: 12px 16px;
     background: #fff;
+    transition: background 0.2s ease;
+}
+
+.leaderboard-row:hover {
+    background: inherit;
 }
 
 .leaderboard-row.alt {
-    background: #f2f2f2;
+    background: #e9ecef;
+}
+
+.leaderboard-row.alt:hover {
+    background: #e9ecef;
 }
 
 .leaderboard-cell {
@@ -78,15 +162,28 @@ body {
     max-width: 40px;
     flex: 0 0 40px;
     text-align: center;
+    font-weight: 700;
+}
+
+.leaderboard-cell.name {
+    font-weight: 500;
 }
 
 .leaderboard-cell.score {
     text-align: right;
-    font-family: monospace;
     font-family: "Roboto", sans-serif;
     font-size: 16px;
     max-width: 80px;
     flex: 0 0 80px;
+    font-weight: 700;
+}
+
+.empty-leaderboard {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+    font-style: italic;
+    font-size: 1.1em;
 }
 
 #leaderboardNameInput {
@@ -164,7 +261,7 @@ h1{
 .difficultyBtn:hover{
     background: #3e9292;
     color: white;
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
 .difficultyBtn.selected {
@@ -231,7 +328,7 @@ h1{
     background: linear-gradient(90deg, #ffd43b 0%, #fab005 100%);
 }
 
-.timer-bar.danger {
+.timerBar.danger {
     background: linear-gradient(90deg, #ff6b6b 0%, #fa5252 100%);
 }
 
@@ -275,6 +372,13 @@ h1{
     transition: all 0.3s;
 } 
 
+.answerInput.disabled {
+    background: #f0f0f0 !important;
+    color: #aaa !important;
+    border-color: #ddd !important;
+    cursor: not-allowed;
+}
+
 input::placeholder {
   color: rgb(211, 211, 211);
 }
@@ -306,6 +410,13 @@ input::placeholder {
     border-radius: 10px;
     font-weight: bold;
     transition: all 0.3s;
+}
+
+.submitBtn.disabled {
+    background: #e9ecef !important;
+    color: #aaa !important;
+    cursor: not-allowed;
+    box-shadow: none !important;
 }
 
 .submitBtn:hover{
@@ -387,8 +498,8 @@ input::placeholder {
 }
 
 .startBtn:hover, .restartBtn:hover{
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(81, 207, 102, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(81, 199, 207, 0.4);
 }
 
 .gameScreen{
