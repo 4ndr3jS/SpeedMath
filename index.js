@@ -11,6 +11,7 @@ let timerInterval;
 let difficulty = 'easy';
 let correctAnswers = 0;
 let leaderboard = [];
+let activeLeaderboardTab = 'easy';
 
 function selectDifficulty(level) {
     difficulty = level;
@@ -84,6 +85,10 @@ function submitAnswer() {
     const userAnswer = parseFloat(document.getElementById('answerInput').value);
     if (isNaN(userAnswer)) return;
     clearInterval(timerInterval);
+    document.getElementById('answerInput').disabled = true;
+    document.getElementById('answerInput').classList.add('disabled');
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('submitBtn').classList.add('disabled');
     if (userAnswer === correctAnswer) {
         correctAnswers++;
         streak++;
@@ -97,14 +102,26 @@ function submitAnswer() {
         wrongAnswer();
         return;
     }
-    setTimeout(nextQuestion, 1500);
+    setTimeout(() => {
+        document.getElementById('answerInput').disabled = false;
+        document.getElementById('answerInput').classList.remove('disabled');
+        document.getElementById('submitBtn').disabled = false;
+        document.getElementById('submitBtn').classList.remove('disabled');
+        nextQuestion();
+    }, 1500);
 }
 
 function wrongAnswer() {
     streak = 0;
     showFeedback(`✗ Wrong! The answer was ${correctAnswer}`, 'wrong');
     document.getElementById('streak').textContent = streak;
-    setTimeout(nextQuestion, 1500);
+    setTimeout(() => {
+        document.getElementById('answerInput').disabled = false;
+        document.getElementById('answerInput').classList.remove('disabled');
+        document.getElementById('submitBtn').disabled = false;
+        document.getElementById('submitBtn').classList.remove('disabled');
+        nextQuestion();
+    }, 1500);
 }
 
 function showFeedback(message, type) {
@@ -142,6 +159,13 @@ function startGame() {
     document.getElementById('streak').textContent = streak;
     document.getElementById('current').textContent = 1;
     document.getElementById('total').textContent = totalQuestions;
+    document.getElementById('answerInput').value = '';
+    document.getElementById('answerInput').disabled = false;
+    document.getElementById('answerInput').classList.remove('disabled');
+    document.getElementById('submitBtn').disabled = false;
+    document.getElementById('submitBtn').classList.remove('disabled');
+    switchLeaderboardTab(difficulty);
+    document.querySelector('.leaderboard-container').style.background = 'white';
     generateEquation();
     startTimer();
     document.getElementById('answerInput').focus();
@@ -161,8 +185,23 @@ function restartGame() {
     document.getElementById('startScreen').classList.add('active');
 }
 
+function switchLeaderboardTab(tab) {
+    activeLeaderboardTab = tab;
+    
+    const tabs = document.querySelectorAll('.leaderboard-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+    
+    const leaderboardContainer = document.querySelector('.leaderboard-container');
+    leaderboardContainer.classList.remove('easy', 'medium', 'hard');
+    leaderboardContainer.classList.add(tab);
+    leaderboardContainer.style.background = 'white';
+    
+    fetchLeaderboard(tab);
+}
+
 function renderLeaderboardHeader() {
-    const table = document.querySelector('.container .table');
+    const table = document.querySelector('.table');
     const header = document.createElement('div');
     header.className = 'leaderboard-header';
     const placeLabel = document.createElement('div');
@@ -181,7 +220,15 @@ function renderLeaderboardHeader() {
 }
 
 function renderLeaderboardRows(data) {
-    const table = document.querySelector('.container .table');
+    const table = document.querySelector('.table');
+    if (data.length === 0) {
+        const emptyMsg = document.createElement('div');
+        emptyMsg.className = 'empty-leaderboard';
+        emptyMsg.textContent = 'No scores yet.';
+        table.appendChild(emptyMsg);
+        return;
+    }
+    
     data.forEach((entry, i) => {
         const row = document.createElement('div');
         row.className = 'leaderboard-row' + (i % 2 === 1 ? ' alt' : '');
@@ -223,26 +270,28 @@ function showNameInput() {
         input.style.display = '';
         btn.style.display = '';
     }
+    input.value = '';
+    input.focus();
 }
 
-async function fetchLeaderboard() {
-    try {
-        const { data, error } = await supabase
-            .from('leaderboard')
-            .select('name, score')
-            .order('score', { ascending: false })
-            .limit(10);
-        if (error) {
-            console.error('Error fetching leaderboard:', error);
-            return;
-        }
-        const table = document.querySelector('.container .table');
-        table.innerHTML = '';
-        renderLeaderboardHeader();
-        renderLeaderboardRows(data);
-    } catch (err) {
-        console.error('Error:', err);
-    }
+async function fetchLeaderboard(difficulty = 'easy') {
+    const table = document.querySelector('.leaderboard-container .table');
+    if (!table) return;
+    supabase
+        .from('leaderboard')
+        .select('name, score, difficulty')
+        .eq('difficulty', difficulty)
+        .order('score', { ascending: false })
+        .limit(10)
+        .then(({ data, error }) => {
+            if (error) {
+                console.error('Error fetching leaderboard:', error);
+                return;
+            }
+            table.innerHTML = '';
+            renderLeaderboardHeader();
+            renderLeaderboardRows(data);
+        });
 }
 
 async function submitToLeaderboard() {
@@ -254,14 +303,14 @@ async function submitToLeaderboard() {
     try {
         const { error } = await supabase
             .from('leaderboard')
-            .insert([{ name, score }]);
+            .insert([{ name, score, difficulty }]);
         if (error) {
             console.error('Error submitting score:', error);
             alert('Error submitting score.');
             return;
         }
         setTimeout(() => {
-            fetchLeaderboard();
+            fetchLeaderboard(difficulty);
         }, 200);
     } catch (err) {
         console.error('Error:', err);
@@ -271,7 +320,7 @@ async function submitToLeaderboard() {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.startBtn').addEventListener('click', startGame);
-    
+
     document.querySelectorAll('.difficultyBtn').forEach(btn => {
         btn.addEventListener('click', () => {
             selectDifficulty(btn.dataset.difficulty);
@@ -284,6 +333,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     document.getElementById('restartBtn').addEventListener('click', restartGame);
+
+    document.querySelectorAll('.leaderboard-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.leaderboard-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const difficulty = tab.getAttribute('data-tab');
+            document.querySelector('.leaderboard-container').classList.remove('easy', 'medium', 'hard');
+            document.querySelector('.leaderboard-container').classList.add(difficulty);
+            fetchLeaderboard(difficulty);
+        });
+    });
     
-    fetchLeaderboard();
+    fetchLeaderboard('easy');
 });
