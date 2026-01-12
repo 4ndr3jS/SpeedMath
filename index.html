@@ -8,6 +8,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script type="importmap">
+    {
+      "imports": {
+        "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/+esm"
+      }
+    }
+    </script>
 </head>
 <body>
     <div class="offset" style="width: 350px;"></div>
@@ -78,8 +85,13 @@
         </div>
     </div>
 
-    <div class="container" style="max-width: 400px; margin-left: 50px; min-height: 600px; padding-left: 25px; padding-right: 25px;">
+    <div class="container leaderboard-container easy" style="max-width: 400px; margin-left: 50px; min-height: 600px; padding-left: 25px; padding-right: 25px;">
         <h2>Leaderboard</h2>
+        <div class="leaderboard-tabs">
+            <button class="leaderboard-tab active" data-tab="easy">Easy</button>
+            <button class="leaderboard-tab" data-tab="medium">Medium</button>
+            <button class="leaderboard-tab" data-tab="hard">Hard</button>
+        </div>
         <div class="table">
 
         </div>
